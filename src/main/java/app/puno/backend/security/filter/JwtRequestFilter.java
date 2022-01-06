@@ -24,14 +24,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private final JwtUtils jwtUtils;
 	private final ProfileRepository profileRepository;
 
-	public JwtRequestFilter(final @NonNull JwtUtils jwtUtils, final @NonNull ProfileRepository profileRepository) {
+	public JwtRequestFilter( JwtUtils jwtUtils,  ProfileRepository profileRepository) {
 		this.jwtUtils = jwtUtils;
 		this.profileRepository = profileRepository;
 	}
 
 	@Override
-	protected void doFilterInternal(final @NonNull HttpServletRequest request, final @NonNull HttpServletResponse response,
-			final @NonNull FilterChain filterChain)
+	protected void doFilterInternal( HttpServletRequest request,  HttpServletResponse response,
+			 FilterChain filterChain)
 			throws ServletException, IOException {
 		String authenticationHeader = request.getHeader("Authorization");
 		if (authenticationHeader == null) {

@@ -15,7 +15,6 @@ import java.util.Base64;
 import java.util.UUID;
 import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -25,12 +24,12 @@ public class JwtUtils {
 	private final JwtParser jwtParser;
 	private final Key secretKey;
 
-	public JwtUtils(final @NonNull @Value("${jwt.secret:secret_jwt_key_here_puno_app}") String secret) {
+	public JwtUtils(@Value("${jwt.secret:secret_jwt_key_here_puno_app}") String secret) {
 		this.secretKey = Keys.hmacShaKeyFor(Base64.getEncoder().encode(secret.getBytes(StandardCharsets.UTF_8)));
 		this.jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
 	}
 
-	public String createToken(final @NonNull Profile profile) {
+	public String createToken(Profile profile) {
 		return Jwts.builder()
 				.setIssuer("puno.app")
 				.setSubject(profile.getId().toString())
@@ -44,7 +43,7 @@ public class JwtUtils {
 
 
 	@Nullable
-	private Claims parseClaims(final @NonNull String token) {
+	private Claims parseClaims(String token) {
 		try {
 			return jwtParser.parseClaimsJws(token).getBody();
 		} catch (JwtException ex) {
@@ -53,7 +52,7 @@ public class JwtUtils {
 	}
 
 	@Nullable
-	public <T> T withExtractor(final @NonNull String token, final @NonNull Function<Claims, T> extractor) {
+	public <T> T withExtractor(String token, Function<Claims, T> extractor) {
 		Claims claims = parseClaims(token);
 		Boolean expired = hasExpired(token);
 		if (claims == null || expired == null || expired) {
@@ -63,12 +62,12 @@ public class JwtUtils {
 	}
 
 	@Nullable
-	private <T> T withExtractor(final @NonNull String token, final @NonNull String claim, final @NonNull Class<T> clazz) {
+	private <T> T withExtractor(String token, String claim, Class<T> clazz) {
 		return withExtractor(token, claims -> claims.get(claim, clazz));
 	}
 
 	@Nullable
-	public Boolean hasExpired(final @NonNull String token) {
+	public Boolean hasExpired(String token) {
 		Claims claims = parseClaims(token);
 		if (claims == null) {
 			return null;
@@ -77,12 +76,12 @@ public class JwtUtils {
 	}
 
 	@Nullable
-	public UUID getProfileId(final @NonNull String token) {
+	public UUID getProfileId(String token) {
 		return withExtractor(token, claims -> UUID.fromString(claims.get("id", String.class)));
 	}
 
 	@Nullable
-	public Role getRole(final @NonNull String token) {
+	public Role getRole(String token) {
 		return withExtractor(token, claims -> Role.valueOf(claims.get("role", String.class)));
 	}
 

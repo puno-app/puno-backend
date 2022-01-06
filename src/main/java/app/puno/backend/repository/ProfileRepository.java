@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, UUID> {
 
-	@Nullable Profile findByUsername(@NonNull String username);
+	@Nullable Profile findByUsername(String username);
 
-	@Nullable Profile findByUsernameOrEmail(@NonNull String username, @NonNull String email);
+	@Nullable Profile findByUsernameOrEmail(String username, @NonNull String email);
 
 }

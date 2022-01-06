@@ -34,3 +34,6 @@ build/
 
 ### Dev profile ###
 application-dev.properties
+
+### Firebase details ###
+firebase-service-account.json

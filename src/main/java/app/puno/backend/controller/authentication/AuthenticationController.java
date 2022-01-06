@@ -2,15 +2,16 @@ package app.puno.backend.controller.authentication;
 
 import static app.puno.backend.util.ResponseUtils.fail;
 
+import app.puno.backend.controller.authentication.request.RefreshRequest;
+import app.puno.backend.controller.authentication.request.RegisterRequest;
+import app.puno.backend.controller.authentication.response.LoginRequest;
+import app.puno.backend.controller.authentication.response.LoginResponse;
+import app.puno.backend.controller.authentication.response.RefreshResponse;
 import app.puno.backend.model.Profile;
 import app.puno.backend.service.AuthenticationService;
 import app.puno.backend.service.AuthenticationService.LoginResult;
 import app.puno.backend.service.ProfileService;
-import java.util.UUID;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -69,27 +70,6 @@ public class AuthenticationController {
 			return fail("Invalid refresh token provided.", HttpStatus.UNAUTHORIZED);
 		}
 		return ResponseEntity.ok(new RefreshResponse(result));
-	}
-
-	public record RefreshRequest(UUID refreshToken) {
-
-	}
-
-	public record RefreshResponse(String token) {
-
-	}
-
-	public record LoginResponse(UUID refreshToken, String token) {
-
-	}
-
-	public record LoginRequest(@NotEmpty String identifier, @NotEmpty String password) {
-
-	}
-
-	public record RegisterRequest(@Length(min = 3, max = 64) String username, @Email String email,
-								  @NotEmpty String password) {
-
 	}
 
 }

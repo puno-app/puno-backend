@@ -31,8 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private final JwtRequestFilter jwtTokenFilter;
 	private final ProfileRepository profileRepository;
 
-	public SecurityConfiguration(JwtRequestFilter jwtTokenFilter,
-			ProfileRepository profileRepository) {
+	public SecurityConfiguration(JwtRequestFilter jwtTokenFilter, ProfileRepository profileRepository) {
 		this.jwtTokenFilter = jwtTokenFilter;
 		this.profileRepository = profileRepository;
 	}

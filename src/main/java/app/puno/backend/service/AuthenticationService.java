@@ -8,7 +8,6 @@ import app.puno.backend.util.JwtUtils;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,10 @@ public class AuthenticationService {
 	private final PasswordEncoder passwordEncoder;
 
 	public AuthenticationService(
-			final @NonNull ProfileRepository profileRepository,
-			final @NonNull RefreshTokenRepository refreshTokenRepository,
-			final @NonNull JwtUtils jwtUtils,
-			final @NonNull PasswordEncoder passwordEncoder
+			ProfileRepository profileRepository,
+			RefreshTokenRepository refreshTokenRepository,
+			JwtUtils jwtUtils,
+			PasswordEncoder passwordEncoder
 	) {
 		this.profileRepository = profileRepository;
 		this.refreshTokenRepository = refreshTokenRepository;
@@ -36,14 +35,14 @@ public class AuthenticationService {
 	}
 
 
-	public LoginResult createTokens(final @NonNull Profile profile) {
+	public LoginResult createTokens(Profile profile) {
 		String jwtToken = jwtUtils.createToken(profile);
 		UUID refreshTokenId = refreshTokenRepository.save(new RefreshToken(profile)).getId();
 		return new LoginResult(jwtToken, refreshTokenId);
 	}
 
 	@Nullable
-	public LoginResult login(final @NonNull String usernameOrEmail, final @NonNull String password) {
+	public LoginResult login(String usernameOrEmail, String password) {
 		Profile profile = profileRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 		if (profile == null) {
 			return null;
@@ -56,7 +55,7 @@ public class AuthenticationService {
 	}
 
 	@Nullable
-	public String refresh(final @NonNull UUID refreshTokenId) {
+	public String refresh(UUID refreshTokenId) {
 		RefreshToken refreshToken = refreshTokenRepository.findById(refreshTokenId).orElse(null);
 		if (refreshToken == null) {
 			return null;
@@ -69,7 +68,7 @@ public class AuthenticationService {
 		return jwtUtils.createToken(refreshToken.getProfile());
 	}
 
-	public void logout(final @NonNull Profile authenticatedProfile) {
+	public void logout(Profile authenticatedProfile) {
 		refreshTokenRepository.deleteByProfileId(authenticatedProfile.getId());
 	}
 

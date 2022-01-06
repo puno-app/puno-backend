@@ -34,13 +34,12 @@ public class ProfileService {
 		return new ProfileUserDetails(profile);
 	}
 
-	public boolean doesProfileExist(final @NonNull String username, final @NonNull String email) {
+	public boolean doesProfileExist(String username, String email) {
 		return profileRepository.findByUsernameOrEmail(username, email) != null;
 	}
 
 	@NonNull
-	public Profile createProfile(final @NonNull String username, final @NonNull String email,
-			final @NonNull String password) {
+	public Profile createProfile(String username, String email, String password) {
 		Profile profile = new Profile();
 		profile.setUsername(username);
 		profile.setEmail(email);

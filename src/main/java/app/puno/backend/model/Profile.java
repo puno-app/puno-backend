@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,8 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Table(name = "profile", indexes = {
 		@Index(name = "idx_profile_username_email_unq", columnList = "email, username", unique = true)
 })
-@Getter
-@Setter
 public class Profile extends Model {
 
 	private String username;
@@ -56,6 +52,86 @@ public class Profile extends Model {
 			throw new IllegalStateException("Invalid authentication principal found (is this a profile?)");
 		}
 		return profileDetails.getProfile();
+	}
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public Role getRole() {
+		return this.role;
+	}
+
+	public boolean isVerified() {
+		return this.verified;
+	}
+
+	public List<Job> getCreatedJobs() {
+		return this.createdJobs;
+	}
+
+	public List<Job> getEmployedJobs() {
+		return this.employedJobs;
+	}
+
+	public List<ChatMessage> getMessages() {
+		return this.messages;
+	}
+
+	public List<RefreshToken> getRefreshTokens() {
+		return this.refreshTokens;
+	}
+
+	public List<Tag> getTags() {
+		return this.tags;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public void setCreatedJobs(List<Job> createdJobs) {
+		this.createdJobs = createdJobs;
+	}
+
+	public void setEmployedJobs(List<Job> employedJobs) {
+		this.employedJobs = employedJobs;
+	}
+
+	public void setMessages(List<ChatMessage> messages) {
+		this.messages = messages;
+	}
+
+	public void setRefreshTokens(List<RefreshToken> refreshTokens) {
+		this.refreshTokens = refreshTokens;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public enum Role {

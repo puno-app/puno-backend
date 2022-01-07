@@ -3,14 +3,10 @@ package app.puno.backend.service;
 import app.puno.backend.model.Profile;
 import app.puno.backend.repository.ProfileRepository;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
-import lombok.Getter;
 import org.springframework.lang.NonNull;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +45,6 @@ public class ProfileService {
 		return profile;
 	}
 
-	@Getter
 	public static class ProfileUserDetails implements UserDetails {
 
 		private final Profile profile;
@@ -93,6 +88,10 @@ public class ProfileService {
 		@Override
 		public boolean isEnabled() {
 			return true;
+		}
+
+		public Profile getProfile() {
+			return profile;
 		}
 
 	}

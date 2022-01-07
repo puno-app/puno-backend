@@ -10,7 +10,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ListSize {
 
-	int min() default 1;
+	int min() default 0;
 	int max() default Integer.MAX_VALUE;
 
 	String message() default "Invalid number of items in list.";

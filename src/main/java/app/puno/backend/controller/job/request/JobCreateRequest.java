@@ -1,6 +1,7 @@
 package app.puno.backend.controller.job.request;
 
 import app.puno.backend.validation.ListSize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.constraints.Size;

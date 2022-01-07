@@ -1,9 +1,7 @@
 package app.puno.backend.model;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.UUID;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,11 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @MappedSuperclass
 public abstract class Model {
 
@@ -37,6 +31,38 @@ public abstract class Model {
 	@PreUpdate
 	private void onUpdate() {
 		updateTimestamp = LocalDateTime.now(zoneId);
+	}
+
+	public UUID getId() {
+		return this.id;
+	}
+
+	public ZoneId getZoneId() {
+		return this.zoneId;
+	}
+
+	public LocalDateTime getCreateTimestamp() {
+		return this.createTimestamp;
+	}
+
+	public LocalDateTime getUpdateTimestamp() {
+		return this.updateTimestamp;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public void setZoneId(ZoneId zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	public void setCreateTimestamp(LocalDateTime createTimestamp) {
+		this.createTimestamp = createTimestamp;
+	}
+
+	public void setUpdateTimestamp(LocalDateTime updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
 	}
 
 }

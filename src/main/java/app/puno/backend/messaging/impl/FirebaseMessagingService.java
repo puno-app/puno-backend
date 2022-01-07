@@ -8,8 +8,8 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,10 +23,11 @@ public class FirebaseMessagingService implements MessagingService {
 		this.logger = logger;
 	}
 
-	private String buildCondition(List<Tag> tags) {
+	private String buildCondition(Set<Tag> tags) {
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < tags.size(); i++) {
-			Tag tag = tags.get(i);
+		int i = 0;
+		for (Tag tag : tags) {
+			i++;
 			builder.append("'").append(tag.getId().toString()).append("' in topics");
 			if (i == 0 || i == tags.size() - 1) {
 				continue;
@@ -54,7 +55,8 @@ public class FirebaseMessagingService implements MessagingService {
 			messaging.send(message);
 		} catch (FirebaseMessagingException e) {
 			e.printStackTrace();
-			logger.error(String.format("Something went wrong when sending firebase message for job %s.", job.getId()), e);
+			logger.error(String.format("Something went wrong when sending firebase message for job %s.", job.getId()),
+					e);
 		}
 	}
 

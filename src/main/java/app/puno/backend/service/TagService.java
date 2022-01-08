@@ -3,6 +3,7 @@ package app.puno.backend.service;
 import app.puno.backend.model.Tag;
 import app.puno.backend.model.dto.TagDto;
 import app.puno.backend.repository.TagRepository;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -45,8 +46,9 @@ public class TagService {
 	}
 
 	public boolean deleteTag(UUID id) {
-		Tag tag = tagRepository.deleteByTagId(id);
+		Tag tag = tagRepository.findById(id).orElse(null);
 		if (tag != null) {
+			tagRepository.delete(tag.getId());
 			setOperations.remove(String.format("tag:search:%s:*", tag.getName().toLowerCase()));
 		}
 		return tag != null;
@@ -65,6 +67,10 @@ public class TagService {
 		return new TagDto(id, name);
 	}
 
+	private String tagToString(Tag tag) {
+		return tag.getName() + ":" + tag.getId().toString();
+	}
+
 	@NonNull
 	public Collection<TagDto> searchTags(String name, int page, int size) {
 		String key = buildKey(name, page, size);
@@ -74,9 +80,12 @@ public class TagService {
 			return members.stream().map(this::parseDto).filter(Objects::nonNull).collect(Collectors.toList());
 		}
 
-		List<Tag> tags = tagRepository.findManyByNameIgnoreCase(name, Pageable.ofSize(size).withPage(page));
+		List<Tag> tags = tagRepository.findManyByNameIgnoreCase(name, Pageable.ofSize(size).withPage(page - 1));
+		if (tags.isEmpty()) {
+			return new ArrayList<>();
+		}
 
-		setOperations.add(key, tags.stream().map(tag -> tag.getId().toString()).toArray(String[]::new));
+		setOperations.add(key, tags.stream().map(this::tagToString).toArray(String[]::new));
 		redisTemplate.expire(key, 2, TimeUnit.MINUTES);
 
 		return tags.stream().map(tag -> new TagDto(tag.getId(), tag.getName())).collect(Collectors.toList());

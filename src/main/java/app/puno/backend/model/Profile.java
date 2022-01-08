@@ -3,9 +3,9 @@ package app.puno.backend.model;
 import app.puno.backend.model.authentication.RefreshToken;
 import app.puno.backend.model.chat.ChatMessage;
 import app.puno.backend.service.ProfileService.ProfileUserDetails;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
@@ -30,19 +30,19 @@ public class Profile extends Model {
 	private boolean verified;
 
 	@OneToMany(mappedBy = "employer", cascade = CascadeType.DETACH)
-	private List<Job> createdJobs = new ArrayList<>();
+	private Set<Job> createdJobs = new HashSet<>();
 
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.DETACH)
-	private List<Job> employedJobs = new ArrayList<>();
+	private Set<Job> employedJobs = new HashSet<>();
 
 	@OneToMany(mappedBy = "profile", cascade = CascadeType.DETACH)
-	private List<ChatMessage> messages = new ArrayList<>();
+	private Set<ChatMessage> messages = new HashSet<>();
 
 	@OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE)
-	private List<RefreshToken> refreshTokens = new ArrayList<>();
+	private Set<RefreshToken> refreshTokens = new HashSet<>();
 
 	@OneToMany
-	private List<Tag> tags;
+	private Set<Tag> tags;
 
 	@NonNull
 	public static Profile getAuthenticatedProfile() {
@@ -74,23 +74,23 @@ public class Profile extends Model {
 		return this.verified;
 	}
 
-	public List<Job> getCreatedJobs() {
+	public Set<Job> getCreatedJobs() {
 		return this.createdJobs;
 	}
 
-	public List<Job> getEmployedJobs() {
+	public Set<Job> getEmployedJobs() {
 		return this.employedJobs;
 	}
 
-	public List<ChatMessage> getMessages() {
+	public Set<ChatMessage> getMessages() {
 		return this.messages;
 	}
 
-	public List<RefreshToken> getRefreshTokens() {
+	public Set<RefreshToken> getRefreshTokens() {
 		return this.refreshTokens;
 	}
 
-	public List<Tag> getTags() {
+	public Set<Tag> getTags() {
 		return this.tags;
 	}
 
@@ -114,23 +114,23 @@ public class Profile extends Model {
 		this.verified = verified;
 	}
 
-	public void setCreatedJobs(List<Job> createdJobs) {
+	public void setCreatedJobs(Set<Job> createdJobs) {
 		this.createdJobs = createdJobs;
 	}
 
-	public void setEmployedJobs(List<Job> employedJobs) {
+	public void setEmployedJobs(Set<Job> employedJobs) {
 		this.employedJobs = employedJobs;
 	}
 
-	public void setMessages(List<ChatMessage> messages) {
+	public void setMessages(Set<ChatMessage> messages) {
 		this.messages = messages;
 	}
 
-	public void setRefreshTokens(List<RefreshToken> refreshTokens) {
+	public void setRefreshTokens(Set<RefreshToken> refreshTokens) {
 		this.refreshTokens = refreshTokens;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
 

@@ -9,6 +9,7 @@ import app.puno.backend.repository.ChatRepository;
 import app.puno.backend.repository.JobRepository;
 import app.puno.backend.repository.TagRepository;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,12 +36,11 @@ public class JobService {
 	}
 
 	@NonNull
-	public Job createJob(List<UUID> tags, String title, String description, Profile employer) {
+	public Job createJob(Set<UUID> tags, String title, String description, Profile employer) {
 		Job job = new Job();
 		job.setTitle(title);
 		job.setDescription(description);
 		job.setEmployer(employer);
-		job.setStatus(Status.STARTED);
 
 		Chat chat = new Chat();
 		chatRepository.save(chat);

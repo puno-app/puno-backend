@@ -1,13 +1,10 @@
 package app.puno.backend.controller.job;
 
 import app.puno.backend.controller.job.request.JobCreateRequest;
-import app.puno.backend.dto.JobDto;
+import app.puno.backend.model.dto.JobDto;
 import app.puno.backend.model.Job;
 import app.puno.backend.model.Profile;
 import app.puno.backend.service.JobService;
-import app.puno.backend.util.UUIDUtils;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

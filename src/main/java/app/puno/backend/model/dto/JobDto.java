@@ -1,4 +1,4 @@
-package app.puno.backend.dto;
+package app.puno.backend.model.dto;
 
 import app.puno.backend.model.Job.Status;
 import java.time.LocalDateTime;

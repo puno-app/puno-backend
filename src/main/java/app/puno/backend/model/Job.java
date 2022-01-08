@@ -1,6 +1,7 @@
 package app.puno.backend.model;
 
 import app.puno.backend.model.chat.Chat;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,9 +32,9 @@ public class Job extends Model {
 	@JoinTable(name = "job_tags",
 			joinColumns = @JoinColumn(name = "job_id"),
 			inverseJoinColumns = @JoinColumn(name = "tags_id"))
-	private Set<Tag> tags = new java.util.LinkedHashSet<>();
+	private Set<Tag> tags = new LinkedHashSet<>();
 
-	private Status status;
+	private Status status = Status.STARTED;
 
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
